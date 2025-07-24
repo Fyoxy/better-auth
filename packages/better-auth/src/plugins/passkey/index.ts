@@ -133,6 +133,7 @@ export const passkey = (options?: PasskeyOptions) => {
 							authenticatorAttachment: z
 								.enum(["platform", "cross-platform"])
 								.optional(),
+							name: z.string().optional(),
 						})
 						.optional(),
 					metadata: {
@@ -272,7 +273,7 @@ export const passkey = (options?: PasskeyOptions) => {
 						rpID: getRpID(opts, ctx.context.options.baseURL),
 						userID,
 						userName: session.user.email || session.user.id,
-						userDisplayName: session.user.email || session.user.id,
+						userDisplayName: ctx.query?.name || session.user.email || session.user.id,
 						attestationType: "none",
 						excludeCredentials: userPasskeys.map((passkey) => ({
 							id: passkey.credentialID,
